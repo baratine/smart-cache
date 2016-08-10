@@ -1,0 +1,19 @@
+apply plugin: 'java'
+apply plugin: 'application'
+
+repositories {
+  jcenter()
+}
+
+dependencies {
+
+  compile 'io.baratine:baratine:1.0.0'
+  compile 'org.hibernate:hibernate-core:4.3.11.Final'
+  compile 'org.hibernate:hibernate-entitymanager:4.3.11.Final'
+  compile 'org.springframework.data:spring-data-jpa:1.10.2.RELEASE'
+  compile 'org.hsqldb:hsqldb:2.3.4'
+
+  testCompile 'junit:junit:4.12'
+}
+
+mainClassName="smartcache.CacheServer"
