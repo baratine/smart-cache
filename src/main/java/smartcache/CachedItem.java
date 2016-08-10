@@ -57,7 +57,11 @@ public class CachedItem
 
     public static JsonDataItem of(DataItem item)
     {
-      return new JsonDataItem(item.getId(), item.getValue());
+      try {
+        return new JsonDataItem(item.getId(), item.getValue());
+      } catch (Throwable t) {
+        return null;
+      }
     }
   }
 }
