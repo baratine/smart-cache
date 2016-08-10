@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns="http://www.springframework.org/schema/data/jpa"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/data/jpa
+    http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
+
+  <beans:bean id="persistenceUnitManager"
+              class="org.springframework.orm.jpa.persistenceunit.DefaultPersistenceUnitManager">
+    <beans:property name="persistenceXmlLocations">
+      <beans:list>
+        <beans:value>classpath:/META-INF/persistence.xml</beans:value>
+      </beans:list>
+    </beans:property>
+    <!--beans:property name="defaultDataSource" ref="dataSource"/-->
+  </beans:bean>
+
+  <beans:bean id="transactionManager"
+              class="org.springframework.orm.jpa.JpaTransactionManager">
+    <beans:property name="entityManagerFactory" ref="entityManagerFactory"/>
+  </beans:bean>
+
+  <beans:bean id="entityManagerFactory"
+              class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+
+    <beans:property name="persistenceUnitManager" ref="persistenceUnitManager"/>
+    <beans:property name="persistenceUnitName" value="cache"/>
+    <!--beans:property name="dataSource" ref="dataSource"/-->
+    <beans:property name="jpaVendorAdapter">
+      <beans:bean
+        class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+        <beans:property name="database" value="HSQL"/>
+        <beans:property name="showSql" value="true"/>
+        <beans:property name="generateDdl" value="true"/>
+      </beans:bean>
+    </beans:property>
+  </beans:bean>
+
+  <repositories base-package="data" entity-manager-factory-ref=""/>
+</beans:beans>
