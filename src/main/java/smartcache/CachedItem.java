@@ -21,7 +21,7 @@ public class CachedItem
 
   @Inject
   @Service
-  private SpringRepositoryService _repository;
+  private RepositoryService _repository;
 
   @OnLoad
   public void load(Result<Boolean> result)
