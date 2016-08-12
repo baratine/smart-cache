@@ -24,6 +24,7 @@ public class CacheServer
 
     Web.bean(ctx).to(ApplicationContext.class);
 
+    Web.include(SpringRepositoryServiceImpl.class);
     Web.include(Cache.class);
 
     Web.scanAutoConf();

@@ -4,12 +4,12 @@ import javax.inject.Inject;
 
 import io.baratine.service.OnLoad;
 import io.baratine.service.Result;
+import io.baratine.service.Service;
 import io.baratine.vault.Asset;
 import io.baratine.vault.Id;
 import io.baratine.web.Get;
 
 import data.DataItem;
-import data.DataItemRepository;
 
 @Asset
 public class CachedItem
@@ -20,17 +20,18 @@ public class CachedItem
   private DataItem _data;
 
   @Inject
-  private DataItemRepository _repository;
+  @Service
+  private SpringRepositoryService _repository;
 
   @OnLoad
   public void load(Result<Boolean> result)
   {
-    try {
-      _data = _repository.getOne(_id);
-    } catch (Throwable e) {
-      e.printStackTrace();
-    }
+    _repository.getOne(_id, result.then((d, r) -> loadImpl(d, r)));
+  }
 
+  public void loadImpl(DataItem data, Result<Boolean> result)
+  {
+    _data = data;
     result.ok(true);
   }
 
