@@ -26,17 +26,18 @@ public class CachedItem
   @OnLoad
   public void load(Result<Boolean> result)
   {
-    _repository.getOne(_id, result.then((d, r) -> loadImpl(d, r)));
+    _repository.findOne(_id, result.then((d, r) -> loadImpl(d, r)));
   }
 
   public void loadImpl(DataItem data, Result<Boolean> result)
   {
     _data = data;
-    result.ok(true);
+
+    result.ok(_data != null);
   }
 
   @Get("/")
-  public void getSelf(Result<JsonDataItem> result)
+  public void getData(Result<JsonDataItem> result)
   {
     result.ok(JsonDataItem.of(_data));
   }
@@ -58,11 +59,10 @@ public class CachedItem
 
     public static JsonDataItem of(DataItem item)
     {
-      try {
-        return new JsonDataItem(item.getId(), item.getValue());
-      } catch (Throwable t) {
+      if (item == null)
         return null;
-      }
+      else
+        return new JsonDataItem(item.getId(), item.getValue());
     }
   }
 }

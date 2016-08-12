@@ -8,5 +8,5 @@ import data.DataItem;
 @Api
 public interface RepositoryService
 {
-  void getOne(long id, Result<DataItem> result);
+  void findOne(long id, Result<DataItem> result);
 }

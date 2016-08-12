@@ -17,8 +17,10 @@ public class SpringRepositoryService implements RepositoryService
   private DataItemRepository _repository;
 
   @Override
-  public void getOne(long id, Result<DataItem> result)
+  public void findOne(long id, Result<DataItem> result)
   {
-    result.ok(_repository.getOne(id));
+    DataItem data = _repository.findOne(id);
+
+    result.ok(data);
   }
 }
