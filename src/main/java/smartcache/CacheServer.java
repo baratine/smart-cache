@@ -42,54 +42,55 @@ public class CacheServer
 
     cache.start(args);
   }
-}
 
-class RepositoryConfigurator implements IncludeWeb
-{
-  @Inject
-  Config _conf;
-
-  @Override
-  public void build(WebBuilder builder)
+  static class RepositoryConfigurator implements IncludeWeb
   {
-    final String repository = _conf.get("repository");
+    @Inject
+    Config _conf;
 
-    if ("spring-data".equals(repository)) {
-      useSpring(builder);
+    @Override
+    public void build(WebBuilder builder)
+    {
+      final String repository = _conf.get("repository");
+
+      if ("spring-data".equals(repository)) {
+        useSpring(builder);
+      }
+      else if ("jdbc".equals(repository)) {
+        useJdbc(builder);
+      }
+      else if ("jpa".equals(repository)) {
+        useJpa(builder);
+      }
+      else {
+        throw new IllegalStateException(
+          "Please specify configuration with --conf <file> (see smart-cache.yml for sample config)");
+      }
     }
-    else if ("jdbc".equals(repository)) {
-      useJdbc(builder);
+
+    private void useSpring(WebBuilder builder)
+    {
+      GenericApplicationContext ctx = new GenericApplicationContext();
+
+      XmlBeanDefinitionReader xmlReader = new XmlBeanDefinitionReader(ctx);
+
+      xmlReader.loadBeanDefinitions(new ClassPathResource("spring.xml"));
+
+      ctx.refresh();
+
+      builder.bean(ctx).to(ApplicationContext.class);
+
+      builder.service(SpringRepositoryService.class);
     }
-    else if ("jpa".equals(repository)) {
-      useJpa(builder);
+
+    private void useJdbc(WebBuilder builder)
+    {
+      builder.service(JdbcRepositoryService.class);
     }
-    else {
-      throw new IllegalStateException("Please specify configuration with --conf <file> (see smart-cache.yml for sample config)");
+
+    private void useJpa(WebBuilder builder)
+    {
+      builder.service(JpaRepositoryService.class);
     }
-  }
-
-  private void useSpring(WebBuilder builder)
-  {
-    GenericApplicationContext ctx = new GenericApplicationContext();
-
-    XmlBeanDefinitionReader xmlReader = new XmlBeanDefinitionReader(ctx);
-
-    xmlReader.loadBeanDefinitions(new ClassPathResource("spring.xml"));
-
-    ctx.refresh();
-
-    builder.bean(ctx).to(ApplicationContext.class);
-
-    builder.service(SpringRepositoryService.class);
-  }
-
-  private void useJdbc(WebBuilder builder)
-  {
-    builder.service(JdbcRepositoryService.class);
-  }
-
-  private void useJpa(WebBuilder builder)
-  {
-    builder.service(JpaRepositoryService.class);
   }
 }
