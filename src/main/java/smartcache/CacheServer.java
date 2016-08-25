@@ -64,7 +64,7 @@ class RepositoryConfigurator implements IncludeWeb
       useJpa(builder);
     }
     else {
-      throw new IllegalStateException();
+      throw new IllegalStateException("Please specify configuration with --conf <file> (see smart-cache.yml for sample config)");
     }
   }
 

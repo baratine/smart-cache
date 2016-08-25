@@ -19,3 +19,7 @@ dependencies {
 }
 
 mainClassName="smartcache.CacheServer"
+
+run {
+  args "--conf", "src/main/resources/smart-cache.yml"
+}
