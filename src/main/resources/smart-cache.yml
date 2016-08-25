@@ -1,0 +1,6 @@
+repository: jdbc
+
+"jdbc:///items.url": jdbc:hsqldb:file:db/sample
+
+"jdbc:///items.poolSize": 4
+

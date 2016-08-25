@@ -19,14 +19,6 @@ public class CacheServer
 
   public CacheServer()
   {
-    Web.property("jdbc:///items.url", "jdbc:hsqldb:file:db/sample");
-
-    Web.property("jdbc:///items.poolSize", "4");
-
-    //Web.property("repository", "spring-data");
-    //Web.property("repository", "jdbc");
-    Web.property("repository", "jpa");
-
     Web.include(RepositoryConfigurator.class);
 
     Web.include(Cache.class);

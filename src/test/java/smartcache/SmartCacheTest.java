@@ -5,29 +5,19 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import com.caucho.junit.HttpClient;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 public class SmartCacheTest
 {
-  @Test
-  public void test() throws IOException, SQLException
+
+  @Before
+  public void setup() throws SQLException
   {
-    Logger logger = Logger.getLogger("");
-    logger.setLevel(Level.OFF);
-
-    logger = Logger.getLogger("com.caucho.v5.subsystem");
-    logger.setLevel(Level.OFF);
-
-    CacheServer cache = new CacheServer();
-
-    cache.start();
-
     try {
       Connection conn
         = DriverManager.getConnection("jdbc:hsqldb:file:db/sample");
@@ -39,6 +29,14 @@ public class SmartCacheTest
     } catch (SQLIntegrityConstraintViolationException e) {
 
     }
+  }
+
+  @Test
+  public void testSpringData() throws IOException, SQLException
+  {
+    CacheServer cache = new CacheServer();
+
+    cache.start("--conf", "src/test/resources/conf-spring-data.yml");
 
     HttpClient client = new HttpClient(8080);
 
@@ -50,4 +48,41 @@ public class SmartCacheTest
 
     cache.stop();
   }
+
+  @Test
+  public void testJdbc() throws IOException, SQLException
+  {
+    CacheServer cache = new CacheServer();
+
+    cache.start("--conf", "src/test/resources/conf-jdbc.yml");
+
+    HttpClient client = new HttpClient(8080);
+
+    String response = client.get("/CachedItem/12").go().body();
+
+    Assert.assertEquals("{\"id\":12,\"value\":\"Hello World!\"}", response);
+
+    System.err.println("SmartCacheTest.test " + response);
+
+    cache.stop();
+  }
+
+  @Test
+  public void testJpa() throws IOException, SQLException
+  {
+    CacheServer cache = new CacheServer();
+
+    cache.start("--conf", "src/test/resources/conf-jpa.yml");
+
+    HttpClient client = new HttpClient(8080);
+
+    String response = client.get("/CachedItem/12").go().body();
+
+    Assert.assertEquals("{\"id\":12,\"value\":\"Hello World!\"}", response);
+
+    System.err.println("SmartCacheTest.test " + response);
+
+    cache.stop();
+  }
+
 }
