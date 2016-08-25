@@ -19,7 +19,7 @@ public class JpaRepositoryService implements RepositoryService
   public void init()
   {
     EntityManagerFactory factory
-      = Persistence.createEntityManagerFactory("cache");
+      = Persistence.createEntityManagerFactory("data");
 
     _manager = factory.createEntityManager();
   }

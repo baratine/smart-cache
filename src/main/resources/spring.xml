@@ -26,7 +26,7 @@
               class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
 
     <beans:property name="persistenceUnitManager" ref="persistenceUnitManager"/>
-    <beans:property name="persistenceUnitName" value="cache"/>
+    <beans:property name="persistenceUnitName" value="data"/>
     <!--beans:property name="dataSource" ref="dataSource"/-->
     <beans:property name="jpaVendorAdapter">
       <beans:bean
