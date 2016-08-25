@@ -24,10 +24,32 @@ public class CacheServer
 
     Web.bean(ctx).to(ApplicationContext.class);
 
-    Web.include(SpringRepositoryService.class);
+    //useSpring();
+
+    //useJdbc();
+
+    useJpa();
+
     Web.include(Cache.class);
 
     Web.scanAutoConf();
+  }
+
+  private void useSpring()
+  {
+    Web.include(SpringRepositoryService.class);
+  }
+
+  private void useJdbc()
+  {
+    Web.property("jdbc:///items.url", "jdbc:hsqldb:file:db/sample");
+    Web.property("jdbc:///items.poolSize", "4");
+    Web.include(JdbcRepositoryService.class);
+  }
+
+  private void useJpa()
+  {
+    Web.include(JpaRepositoryService.class);
   }
 
   public void start(String... args)

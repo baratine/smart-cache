@@ -9,7 +9,7 @@ import io.baratine.service.Workers;
 import data.DataItem;
 import data.DataItemRepository;
 
-@Service()
+@Service
 @Workers(4)
 public class SpringRepositoryService implements RepositoryService
 {
