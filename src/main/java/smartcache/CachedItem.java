@@ -17,7 +17,7 @@ public class CachedItem
   @Id
   private long _id;
 
-  private DataItem _data;
+  private JsonDataItem _data;
 
   @Inject
   @Service
@@ -31,15 +31,17 @@ public class CachedItem
 
   public void loadImpl(DataItem data, Result<Boolean> result)
   {
-    _data = data;
+    if (data != null) {
+      _data = JsonDataItem.of(data);
+    }
 
-    result.ok(_data != null);
+    result.ok(data != null);
   }
 
   @Get("/")
   public void getData(Result<JsonDataItem> result)
   {
-    result.ok(JsonDataItem.of(_data));
+    result.ok(_data);
   }
 
   public static class JsonDataItem
