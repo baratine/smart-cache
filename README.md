@@ -26,11 +26,11 @@ and "jpa".
 Configuration can be supplied as an argument to the main class with --conf <file>
 and is required.
 
-e.g java -cp $CP smartcache.CacheServer --conf src/main/resources/smart-cache.yml
+e.g `java -cp $CP smartcache.CacheServer --conf src/main/resources/smart-cache.yml`
 
 CachedItems are made accessible at /CachedItem/{id} REST URL via Baratine Vault.
 
-e.g. curl http://localhost:8080/CachedItem/13
+e.g. `curl http://localhost:8080/CachedItem/13`    
 {"id":13,"value":"Hello World 13!"}
 
 Application can be run with `gradle run` from the smart-cache directory.
