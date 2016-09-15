@@ -5,11 +5,12 @@ apply plugin: 'maven'
 repositories {
   mavenLocal();
   mavenCentral();
+  maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
 }
 
 dependencies {
 
-  compile 'io.baratine:baratine:0.11-SNAPSHOT'
+  compile 'io.baratine:baratine:1.0.1-SNAPSHOT'
   compile 'org.hibernate:hibernate-core:4.3.11.Final'
   compile 'org.hibernate:hibernate-entitymanager:4.3.11.Final'
   compile 'org.springframework.data:spring-data-jpa:1.10.2.RELEASE'
@@ -18,7 +19,7 @@ dependencies {
   testCompile 'junit:junit:4.12'
 }
 
-mainClassName="smartcache.CacheServer"
+mainClassName = "smartcache.CacheServer"
 
 run {
   args "--conf", "src/main/resources/smart-cache.yml"

@@ -1,15 +1,15 @@
 package smartcache;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.util.Iterator;
 
 import javax.inject.Inject;
 
+import io.baratine.jdbc.JdbcResultSet;
+import io.baratine.jdbc.JdbcRowSet;
+import io.baratine.jdbc.JdbcService;
 import io.baratine.service.Result;
 import io.baratine.service.Service;
 import io.baratine.service.Workers;
-
-import com.caucho.v5.jdbc.JdbcService;
 
 import data.DataItem;
 
@@ -29,17 +29,15 @@ public class JdbcRepositoryService implements RepositoryService
                 id);
   }
 
-  private void get(long id, ResultSet rs, Result<DataItem> result)
+  private void get(long id, JdbcResultSet rs, Result<DataItem> result)
   {
-    try {
-      if (rs.next()) {
-        result.ok(new DataItem(id, rs.getString(1)));
-      }
-      else {
-        result.ok(null);
-      }
-    } catch (SQLException e) {
-      result.fail(e);
+    Iterator<JdbcRowSet> iterator = rs.iterator();
+    if (iterator.hasNext()) {
+      JdbcRowSet row = iterator.next();
+      result.ok(new DataItem(id, row.getString(0)));
+    }
+    else {
+      result.ok(null);
     }
   }
 }
