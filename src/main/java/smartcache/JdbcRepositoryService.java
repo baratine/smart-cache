@@ -4,7 +4,7 @@ import java.util.Iterator;
 
 import javax.inject.Inject;
 
-import io.baratine.jdbc.JdbcResultSet;
+import io.baratine.jdbc.JdbcRow;
 import io.baratine.jdbc.JdbcRowSet;
 import io.baratine.jdbc.JdbcService;
 import io.baratine.service.Result;
@@ -29,12 +29,12 @@ public class JdbcRepositoryService implements RepositoryService
                 id);
   }
 
-  private void get(long id, JdbcResultSet rs, Result<DataItem> result)
+  private void get(long id, JdbcRowSet rs, Result<DataItem> result)
   {
-    Iterator<JdbcRowSet> iterator = rs.iterator();
+    Iterator<JdbcRow> iterator = rs.iterator();
     if (iterator.hasNext()) {
-      JdbcRowSet row = iterator.next();
-      result.ok(new DataItem(id, row.getString(0)));
+      JdbcRow row = iterator.next();
+      result.ok(new DataItem(id, row.getString(1)));
     }
     else {
       result.ok(null);
