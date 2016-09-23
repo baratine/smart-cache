@@ -10,7 +10,7 @@ repositories {
 
 dependencies {
 
-  compile 'io.baratine:baratine:1.0.1-SNAPSHOT'
+  compile 'io.baratine:baratine:1.0.1'
   compile 'org.hibernate:hibernate-core:4.3.11.Final'
   compile 'org.hibernate:hibernate-entitymanager:4.3.11.Final'
   compile 'org.springframework.data:spring-data-jpa:1.10.2.RELEASE'
